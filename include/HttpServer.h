@@ -3,12 +3,13 @@
 
 #include <TcpServer.h>
 #include <HttpRequest.h>
+#include <HttpResponse.h>
 
 #include <string>
 
 namespace pg {
     
-    class HttpResponse;
+    // class HttpResponse;
 
     class HttpServer : public TcpServer {
     public:
@@ -23,6 +24,14 @@ namespace pg {
             // parse the recvMsg to HttpRequest
             HttpRequest request(std::string(recvBuf, recvLen));
             // response(request, response);
+            HttpResponse reponse(sendBuf);
+// "HTTP/1.1 200 OK\r\nContent-Type: text/html;charset=utf-8\r\nContent-Length: %zu\r\nconnection:close\r\n\r\n%s", sizeof(buff) + 1, buff);
+            reponse.setHeader("Content-Type", "text/html;charset=utf-8");
+            reponse.push_back("<h1><font color=\"red\">")
+                    .push_back(request.getValue("name"))
+                    .push_back("</font></h1>");
+            reponse.flush(200);
+            sendLen = strlen(sendBuf);
             // put the msg of HttpResponse to the sendBuf
         }
     };

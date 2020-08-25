@@ -33,7 +33,7 @@ namespace pg {
     protected:
         void init(const char * msg);
 
-        void parseHeader(const char * header, char * method, char * content, char * httpVer);
+        void parseRequestLine(const char * header, char * method, char * content, char * httpVer);
 
         void parseArgs(const char * argsMsg);
 

@@ -52,7 +52,7 @@ void pg::HttpRequest::init(const char * msg) {
         strcpy(contentBuf, contPosi);
 
     // parse the http-header
-    parseHeader(headerLines.front().c_str(), method, fh_content, httpVer);
+    parseRequestLine(headerLines.front().c_str(), method, fh_content, httpVer);
 
     // request-method
     if (::strcasecmp(method, "get") == 0) requestMethod = GET;
@@ -84,7 +84,7 @@ void pg::HttpRequest::init(const char * msg) {
 #endif
 }
 
-void pg::HttpRequest::parseHeader(const char * header, char * method, char * content, char * httpVer) {
+void pg::HttpRequest::parseRequestLine(const char * header, char * method, char * content, char * httpVer) {
 
     sscanf(header, "%[^ ] %[^ ] %[^ ]", method, content, httpVer);
     
