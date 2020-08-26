@@ -32,9 +32,15 @@ pg::TcpServer::~TcpServer() {
 
 // protected-functions --------------------------------------------------------------------
 
-void pg::TcpServer::process() {  // is a virtual function
+void pg::TcpServer::process(bufferevent *bev) {  // is a virtual function
     strcpy(sendBuf, recvBuf);  // echo-server
     sendLen = recvLen;
+}
+
+void pg::TcpServer::writeTo(bufferevent * bev) {
+    static int i = 0;
+
+    bufferevent_write(bev, sendBuf, sendLen);
 }
 
 // ----------------------------------------------------------------------------------------
@@ -60,7 +66,8 @@ void pg::TcpServer::read(bufferevent *bev, void *arg) {
     std::printf("Recv : {{\n\"%s\"\n}}\n", recvBuf);
 
     memset(sendBuf, 0, sizeof(sendBuf));
-    process();
+
+    process(bev);
 
     bufferevent_write(bev, sendBuf, sendLen);
 }

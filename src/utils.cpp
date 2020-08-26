@@ -8,6 +8,17 @@ const char * pg::util::LF = "\n";
 const char * pg::util::CR = "\r";
 const char * pg::util::EMPTY_STR = "";
 
+const int pg::util::HTTP_SUCCESS_STATUS_CODE = 200;
+const int pg::util::HTTP_NOTFOUND_STATUS_CODE = 404;
+
+const char * pg::util::HTTP_CT_HTML = "text/html";
+const char * pg::util::HTTP_CT_PLAIN_TEXT = "text/plain";
+const char * pg::util::HTTP_CT_XML = "text/xml";
+const char * pg::util::HTTP_CT_GIF = "image/gif";
+const char * pg::util::HTTP_CT_JPG = "image/jpeg";
+const char * pg::util::HTTP_CT_PNG = "image/png";
+const char * pg::util::HTTP_CT_MP4 = "video/mpeg4";
+
 /* status-code & name
  * 200("OK")
  * 400("Bad Request")
@@ -16,7 +27,7 @@ const char * pg::util::EMPTY_STR = "";
  * 404("Not Found") 和 410("Gone")
  * 409("Conflict")
  */
-const std::unordered_map<int, std::string> pg::util::STATUS_NAME_OF_CODE = {
+const std::unordered_map<int, std::string> pg::util::HTTP_STATUS_NAME_OF_CODE = {
     std::pair<int, std::string>(200, "OK"),
     std::pair<int, std::string>(400, "Bad Request"),
     std::pair<int, std::string>(500, "Internal Server Error"),
