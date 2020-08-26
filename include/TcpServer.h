@@ -26,16 +26,18 @@ namespace pg {
         int run();
 
     protected:
-        virtual void process();
+        virtual void process(bufferevent *bev);
+
+        virtual void writeTo(bufferevent * bev);
 
     protected:
         char ip[128] = { 0 };
         short port = 0;
 
         char sendBuf[BUFSIZ] = { 0 };
-        ssize_t sendLen = 0;
+        size_t sendLen = 0;
         char recvBuf[BUFSIZ] = { 0 };
-        ssize_t recvLen = 0;
+        size_t recvLen = 0;
     private:
         void listen(evconnlistener * listener, evutil_socket_t sock, sockaddr * addr, int socklen, void * arg);
         void read(bufferevent *bev, void *arg);

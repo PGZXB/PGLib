@@ -5,6 +5,10 @@
 #include <HttpRequest.h>
 #include <HttpResponse.h>
 
+#include <sys/stat.h>
+#include <sys/file.h>
+#include <unistd.h>
+
 #include <string>
 
 namespace pg {
@@ -17,22 +21,46 @@ namespace pg {
         virtual ~HttpServer() = default;
     
     protected:
-        virtual void response(const HttpRequest &, HttpResponse &) {  }
+        virtual void response(const HttpRequest & __request, HttpResponse & __response) { 
+            // __response.setContentType(util::HTTP_CT_PLAIN_TEXT);
+            // __response.push_back("<h1><font color=\"red\">")
+                    // .push_back(__request.getValue("name"))
+                    // .push_back("</font></h1>");
+            if (__request.getUrl() == "/movie.mp4") {
+                __response.setContentType(util::HTTP_CT_MP4);
+                int fd = ::open("/home/pgzxb/Pictures/test.mp4", O_RDONLY);
+                ::fcntl(fd, O_NONBLOCK);
+                char buf[BUFSIZ]; int len;
+                while ( (len = ::read(fd, buf, sizeof(buf)) ) > 0) {
+                    __response.push_back(buf, len);
+                }
+            } else if (__request.getUrl() == "/movie") {
+                __response.setContentType(util::HTTP_CT_HTML);
+                int fd = ::open("/home/pgzxb/Pictures/test.html", O_RDONLY);
+                ::fcntl(fd, O_NONBLOCK);
+                char buf[BUFSIZ]; int len;
+                while ( (len = ::read(fd, buf, sizeof(buf)) ) > 0) {
+                    __response.push_back(buf, len);
+                }
+            }
+
+            __response.setStatusCode(util::HTTP_SUCCESS_STATUS_CODE);
+         }
 
     private:
-        void process() override {
-            // parse the recvMsg to HttpRequest
-            HttpRequest request(std::string(recvBuf, recvLen));
-            // response(request, response);
-            HttpResponse reponse(sendBuf);
-// "HTTP/1.1 200 OK\r\nContent-Type: text/html;charset=utf-8\r\nContent-Length: %zu\r\nconnection:close\r\n\r\n%s", sizeof(buff) + 1, buff);
-            reponse.setHeader("Content-Type", "text/html;charset=utf-8");
-            reponse.push_back("<h1><font color=\"red\">")
-                    .push_back(request.getValue("name"))
-                    .push_back("</font></h1>");
-            reponse.flush(200);
-            sendLen = strlen(sendBuf);
-            // put the msg of HttpResponse to the sendBuf
+        void process(bufferevent *bev) override {
+            HttpRequest __request(std::string(recvBuf, recvLen));
+            HttpResponse __response(sendBuf);
+
+            response(__request, __response);
+
+            sendLen = __response.flushHeader();
+            writeTo(bev);
+            while (__response.hasRem()) {
+                sendLen = __response.flush();
+                writeTo(bev);
+            }
+            sendLen = 0;
         }
     };
 } // the end of namespace pg
