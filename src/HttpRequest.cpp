@@ -17,6 +17,10 @@ pg::HttpRequest::HttpRequest(const std::string & requestMsg, char * contBuf) : c
 
 pg::HttpRequest::~HttpRequest() { }
 
+pg::HttpRequest::RequestMethod pg::HttpRequest::getMethod() const {
+    return requestMethod;
+}
+
 const std::string & pg::HttpRequest::getUrl() const {
     return url;
 }
@@ -78,8 +82,8 @@ void pg::HttpRequest::init(const char * msg) {
             printf("%s, ", ee.data()); 
         printf("\n");
     }
-    for (int i = 0; i < headerLines.size(); ++i) {
-        printf("Debug----->>>>   header-msg-line%d : \"%s\"\n", i, headerLines[i].c_str());
+    for (size_t i = 0; i < headerLines.size(); ++i) {
+        printf("Debug----->>>>   header-msg-line%ld : \"%s\"\n", i, headerLines[i].c_str());
     }
 #endif
 }

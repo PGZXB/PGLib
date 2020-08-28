@@ -24,10 +24,11 @@ namespace pg {
 
         virtual ~HttpRequest();
 
+        RequestMethod getMethod() const;
+
         const std::string & getUrl() const;
 
         const std::string & getValue(const std::string & key) const;
-
         const std::vector<std::string> & getValues(const std::string & key) const;
     
     protected:

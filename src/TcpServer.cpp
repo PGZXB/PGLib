@@ -38,7 +38,6 @@ void pg::TcpServer::process(bufferevent *bev) {  // is a virtual function
 }
 
 void pg::TcpServer::writeTo(bufferevent * bev) {
-    static int i = 0;
 
     bufferevent_write(bev, sendBuf, sendLen);
 }
@@ -74,10 +73,10 @@ void pg::TcpServer::read(bufferevent *bev, void *arg) {
 
 void pg::TcpServer::eventcb(bufferevent * bev, short what, void * arg) {
     if (what & BEV_EVENT_EOF) {
-        std::printf("Diconnected");
+        std::printf("Diconnected\n");
         bufferevent_free(bev);
     } else if (what & BEV_EVENT_ERROR) {
-        std::printf("Error");
+        std::printf("Error\n");
         bufferevent_free(bev);
     }
 }

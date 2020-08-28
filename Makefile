@@ -3,7 +3,7 @@ obj = $(patsubst ./src/%.cpp, ./obj/%.o, $(src))
 
 includePath = ./include
 
-extArgs = -pthread -levent -g
+extArgs = -levent -g -Wall
 
 ALL : main.out
 
@@ -22,4 +22,7 @@ run :
 init : 
 	mkdir src && mkdir bin && mkdir obj && mkdir include
 
-.PHONY : clean ALL run
+rerun : 
+	make clean && make && make run
+
+.PHONY : clean ALL run init rerun
