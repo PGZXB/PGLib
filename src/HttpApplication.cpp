@@ -1,5 +1,9 @@
 #include <HttpApplication.h>
 
+pg::HttpApplication::HttpApplication(const char * requestUrl) {
+    if (requestUrl != nullptr) url = requestUrl;
+}
+
 const std::string & pg::HttpApplication::getUrl() const {
     return url;
 }

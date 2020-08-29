@@ -18,6 +18,11 @@ const char * pg::util::HTTP_CT_GIF = "image/gif";
 const char * pg::util::HTTP_CT_JPG = "image/jpeg";
 const char * pg::util::HTTP_CT_PNG = "image/png";
 const char * pg::util::HTTP_CT_MP4 = "video/mpeg4";
+const char * pg::util::HTTP_CT_BIN = "application/octet-stream";
+const char * pg::util::HTTP_CT_ICO = "image/x-icon";
+
+const char * pg::util::HTTP_DEFAULT_CONTENT_TYPE = pg::util::HTTP_CT_BIN;
+
 
 const std::unordered_map<int, std::string> pg::util::HTTP_STATUS_NAME_OF_CODE = {
     std::pair<int, std::string>(200, "OK"),
@@ -27,6 +32,18 @@ const std::unordered_map<int, std::string> pg::util::HTTP_STATUS_NAME_OF_CODE = 
     std::pair<int, std::string>(404, "Not Found"),
     std::pair<int, std::string>(410, "Gone"),
     std::pair<int, std::string>(409, "Conflict")
+};
+
+const std::unordered_map<std::string, const char *> pg::util::HTTP_TYPENAME_OF_FSUFFIX = {
+    std::pair<std::string, const char *>(".html", pg::util::HTTP_CT_HTML),
+    std::pair<std::string, const char *>(".txt", pg::util::HTTP_CT_PLAIN_TEXT),
+    std::pair<std::string, const char *>(".xml", pg::util::HTTP_CT_XML),
+    std::pair<std::string, const char *>(".gif", pg::util::HTTP_CT_GIF),
+    std::pair<std::string, const char *>(".jpg", pg::util::HTTP_CT_JPG),
+    std::pair<std::string, const char *>(".png", pg::util::HTTP_CT_PNG),
+    std::pair<std::string, const char *>(".mp4", pg::util::HTTP_CT_MP4),
+    std::pair<std::string, const char *>(".ico", pg::util::HTTP_CT_ICO),
+    std::pair<std::string, const char *>(".*", pg::util::HTTP_CT_BIN),
 };
 
 

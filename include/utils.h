@@ -21,11 +21,17 @@ namespace pg {
         extern const char * HTTP_CT_JPG;
         extern const char * HTTP_CT_PNG;
         extern const char * HTTP_CT_MP4;
+        extern const char * HTTP_CT_BIN;
+        extern const char * HTTP_CT_ICO;
+        extern const char * HTTP_DEFAULT_CONTENT_TYPE;
+
 
         extern const std::unordered_map<int, std::string> HTTP_STATUS_NAME_OF_CODE;
+        extern const std::unordered_map<std::string, const char *> HTTP_TYPENAME_OF_FSUFFIX;
 
         const char * getline(char * buf, const char * str, const char * flag = CRLF);
     } // namespace util
+
 } // namespace pg
 
 

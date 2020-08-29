@@ -31,16 +31,24 @@ void pg::HttpServer::response(const HttpRequest & __request, HttpResponse & __re
 }
 
 void pg::HttpServer::process(bufferevent *bev) {
+    // parse the request-string to the HttpRequest-Object
     HttpRequest __request(std::string(recvBuf, recvLen));
+    // init a HttpResponse-Object to save the message to response to browser
     HttpResponse __response(sendBuf);
 
+    // set response-data
     response(__request, __response);
-
+    
+    // send the reponse-header
     this->sendLen = __response.flushHeader();
     writeTo(bev);
+    
+    // send the data
     while (__response.hasRem()) {
         this->sendLen = __response.flush();
         writeTo(bev);
     }
+
+    // A Small BUG, which is a defect in design
     this->sendLen = 0;
 }

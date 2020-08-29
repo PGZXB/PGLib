@@ -8,7 +8,7 @@ namespace pg {
 
     class HttpApplication {
     public:
-        HttpApplication() = default;
+        HttpApplication(const char * url = nullptr);
         virtual ~HttpApplication() = default;
         
         const std::string & getUrl() const;
