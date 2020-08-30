@@ -29,6 +29,8 @@ namespace pg {
         extern const std::unordered_map<int, std::string> HTTP_STATUS_NAME_OF_CODE;
         extern const std::unordered_map<std::string, const char *> HTTP_TYPENAME_OF_FSUFFIX;
 
+        extern const char * CONFIG_FILE_NAME;
+
         const char * getline(char * buf, const char * str, const char * flag = CRLF);
     } // namespace util
 

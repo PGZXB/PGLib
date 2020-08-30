@@ -1,0 +1,52 @@
+{
+    "configure" : {
+        "ip" : "ANY",
+        "port" : 8080
+    },
+    "file-response" : [
+        {
+            "urls" : [
+                "/",
+                "/home",
+                "/home.html"
+            ],
+            "path" : "/home/pgzxb/Pictures/home.html"
+        },
+        {
+            "path" : "/home/pgzxb/Pictures/index.html"
+        },
+        {
+            "path" : "/home/pgzxb/Pictures/movie.html"
+        },
+        {
+            "path" : "/home/pgzxb/Pictures/test.jpg"
+        },
+        {
+            "path" : "/home/pgzxb/Pictures/movie.mp4"
+        },
+        {
+            "path" : "/home/pgzxb/Pictures/favicon.ico"
+        },
+        {
+            "path" : "/home/pgzxb/Pictures/1.html"
+        },
+        {
+            "path" : "/home/pgzxb/Pictures/2.html"
+        },
+        {
+            "path" : "/home/pgzxb/Pictures/3.html"
+        },
+        {
+            "path" : "/home/pgzxb/Pictures/4.html"
+        },
+        {
+            "path" : "/home/pgzxb/Pictures/5.html"
+        },
+        {
+            "path" : "/home/pgzxb/Pictures/6.html"
+        },
+        {
+            "path" : "/home/pgzxb/Pictures/7.html"
+        }
+    ]
+}

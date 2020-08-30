@@ -3,6 +3,8 @@
 #include <string.h>
 #include <utility>
 
+const char * pg::util::CONFIG_FILE_NAME = "config.json";
+
 const char * pg::util::CRLF = "\r\n";
 const char * pg::util::LF = "\n";
 const char * pg::util::CR = "\r";
@@ -22,7 +24,6 @@ const char * pg::util::HTTP_CT_BIN = "application/octet-stream";
 const char * pg::util::HTTP_CT_ICO = "image/x-icon";
 
 const char * pg::util::HTTP_DEFAULT_CONTENT_TYPE = pg::util::HTTP_CT_BIN;
-
 
 const std::unordered_map<int, std::string> pg::util::HTTP_STATUS_NAME_OF_CODE = {
     std::pair<int, std::string>(200, "OK"),
@@ -45,7 +46,6 @@ const std::unordered_map<std::string, const char *> pg::util::HTTP_TYPENAME_OF_F
     std::pair<std::string, const char *>(".ico", pg::util::HTTP_CT_ICO),
     std::pair<std::string, const char *>(".*", pg::util::HTTP_CT_BIN),
 };
-
 
 const char * pg::util::getline(char * buf, const char * str, const char * flag) {
     const char * end = strstr(str, flag);
