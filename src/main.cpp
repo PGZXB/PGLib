@@ -46,7 +46,7 @@ int main() {
     s.addApplicationBatch(apps);
 
     for (auto & e : apps) {
-        auto ee = dynamic_cast<pg::HttpFileResponseApplication*>(e);
+        auto ee = dynamic_cast<pg::HttpFileResponseApplication* >(e);
         printf("%s, %s, %s\n", ee->url.c_str(), ee->filename.c_str(), ee->contentType.c_str());
     }
 
