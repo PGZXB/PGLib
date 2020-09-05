@@ -3,27 +3,27 @@
 #include <string.h>
 #include <utility>
 
-const char * pg::util::CONFIG_FILE_NAME = "config.json";
+const char * const pg::util::CONFIG_FILE_NAME = "config.json";
 
-const char * pg::util::CRLF = "\r\n";
-const char * pg::util::LF = "\n";
-const char * pg::util::CR = "\r";
-const char * pg::util::EMPTY_STR = "";
+const char * const pg::util::CRLF = "\r\n";
+const char * const pg::util::LF = "\n";
+const char * const pg::util::CR = "\r";
+const char * const pg::util::EMPTY_STR = "";
 
 const int pg::util::HTTP_SUCCESS_STATUS_CODE = 200;
 const int pg::util::HTTP_NOTFOUND_STATUS_CODE = 404;
 
-const char * pg::util::HTTP_CT_HTML = "text/html";
-const char * pg::util::HTTP_CT_PLAIN_TEXT = "text/plain";
-const char * pg::util::HTTP_CT_XML = "text/xml";
-const char * pg::util::HTTP_CT_GIF = "image/gif";
-const char * pg::util::HTTP_CT_JPG = "image/jpeg";
-const char * pg::util::HTTP_CT_PNG = "image/png";
-const char * pg::util::HTTP_CT_MP4 = "video/mpeg4";
-const char * pg::util::HTTP_CT_BIN = "application/octet-stream";
-const char * pg::util::HTTP_CT_ICO = "image/x-icon";
+const char * const pg::util::HTTP_CT_HTML = "text/html";
+const char * const pg::util::HTTP_CT_PLAIN_TEXT = "text/plain";
+const char * const pg::util::HTTP_CT_XML = "text/xml";
+const char * const pg::util::HTTP_CT_GIF = "image/gif";
+const char * const pg::util::HTTP_CT_JPG = "image/jpeg";
+const char * const pg::util::HTTP_CT_PNG = "image/png";
+const char * const pg::util::HTTP_CT_MP4 = "video/mpeg4";
+const char * const pg::util::HTTP_CT_BIN = "application/octet-stream";
+const char * const pg::util::HTTP_CT_ICO = "image/x-icon";
 
-const char * pg::util::HTTP_DEFAULT_CONTENT_TYPE = pg::util::HTTP_CT_BIN;
+const char * const pg::util::HTTP_DEFAULT_CONTENT_TYPE = pg::util::HTTP_CT_BIN;
 
 const std::unordered_map<int, std::string> pg::util::HTTP_STATUS_NAME_OF_CODE = {
     std::pair<int, std::string>(200, "OK"),

@@ -15,7 +15,9 @@ pg::Configure::Configure() {
 pg::Configure::~Configure() = default;
 
 pg::type::Group<pg::HttpApplication*> pg::Configure::getFileReponseApplications() {
-    type::Group<HttpApplication*> res;
+    static type::Group<HttpApplication*> res;
+    if (!res.empty()) return res;
+    
     HttpFileResponseApplicationManager * manager = HttpFileResponseApplicationManager::getInstance();
 
     auto fileResponseArray = dom["file-response"].GetArray();

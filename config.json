@@ -1,6 +1,5 @@
 {
-    "configure" : {
-        "ip" : "ANY",
+	"configure" : { "ip" : "ANY",
         "port" : 8080,
         "db-configure" : {
         }
