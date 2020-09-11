@@ -19,3 +19,4 @@ void pg::HttpApplication::setUrl(const std::string & url) {
 void pg::HttpApplication::setUrl(std::string && url) {
     this->url = url;
 }
+

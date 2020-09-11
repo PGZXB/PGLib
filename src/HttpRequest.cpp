@@ -22,6 +22,16 @@ pg::HttpRequest::RequestMethod pg::HttpRequest::getMethod() const {
 }
 
 const std::string & pg::HttpRequest::getUrl() const {
+
+    return *currentUrlIter;
+}
+
+bool pg::HttpRequest::next() const {
+    if (currentUrlIter + 1 == urls.end()) return false;
+    ++currentUrlIter; return true;
+}
+
+const std::string & pg::HttpRequest::getFullUrl() const {
     return url;
 }
 
@@ -72,6 +82,8 @@ void pg::HttpRequest::init(const char * msg) {
     if (requestMethod == POST)
         parseArgs(contPosi);
 
+    urls = util::stringUtil::split(url, '/', 1);
+    currentUrlIter = ++urls.begin();
 #if 1
     // using to Debug
     printf("Debug----->>>>   content : \"%s\"\n", contPosi);

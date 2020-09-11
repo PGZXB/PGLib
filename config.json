@@ -1,10 +1,12 @@
 {
-	"configure" : { "ip" : "ANY",
+	"configure" : { 
+        "ip" : "ANY",
         "port" : 8080,
         "db-configure" : {
-        }
+        },
+        "work-path" : "/home/pgzxb/Pictures/"
     },
-    "work-path" : "/home/pgzxb/Pictures/",
+    
     "file-response" : [
         {
             "urls" : [

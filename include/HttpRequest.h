@@ -27,6 +27,8 @@ namespace pg {
         RequestMethod getMethod() const;
 
         const std::string & getUrl() const;
+        bool next() const;
+        const std::string & getFullUrl() const;
 
         const std::string & getValue(const std::string & key) const;
         const std::vector<std::string> & getValues(const std::string & key) const;
@@ -43,12 +45,14 @@ namespace pg {
     protected:
         RequestMethod requestMethod;
         std::string url;
+        std::vector<std::string> urls;
+        mutable std::vector<std::string>::iterator currentUrlIter;
         std::map<std::string, std::vector<std::string>> requestArgs;
         std::vector<std::string> headerLines;
         std::string httpVertion;
         char * contentBuf = nullptr;  // used to save content
     };
-    
+
 } // the end of namespace pg
 
 

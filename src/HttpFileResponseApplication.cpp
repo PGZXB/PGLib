@@ -53,7 +53,7 @@ void pg::HttpFileResponseApplication::initContentType() {
 
     std::string suffixName = filename.substr(filename.find_last_of('.'));
     auto iter = util::HTTP_TYPENAME_OF_FSUFFIX.find(suffixName);
-    this->contentType = iter == util::HTTP_TYPENAME_OF_FSUFFIX.end() ? 
+    this->contentType = iter == util::HTTP_TYPENAME_OF_FSUFFIX.end() ?
                             util::HTTP_DEFAULT_CONTENT_TYPE : iter->second;
-    
+  
 }

@@ -2,6 +2,7 @@
 #define __UTILS_H__
 
 #include <unordered_map>
+#include <PGDef.h>
 
 namespace pg {
     namespace util {
@@ -31,7 +32,14 @@ namespace pg {
 
         extern const char * const CONFIG_FILE_NAME;
 
-        const char * getline(char * buf, const char * str, const char * flag = CRLF);
+        namespace stringUtil {
+            
+            const char * getline(char * buf, const char * str, const char * flag = CRLF);
+            pg::type::Group<std::string> split(const std::string & str, const char * splitFlag, int mode = 0);
+            pg::type::Group<std::string> split(const std::string & str, const char ch, int mode = 0);
+
+        } // namespace stringUtls
+        
     } // namespace util
 
 } // namespace pg

@@ -1,7 +1,10 @@
 #include <utils.h>
 
+#include <PGDef.h>
 #include <string.h>
+#include <string>
 #include <utility>
+#include <vector>
 
 const char * const pg::util::CONFIG_FILE_NAME = "config.json";
 
@@ -47,11 +50,70 @@ const std::unordered_map<std::string, const char *> pg::util::HTTP_TYPENAME_OF_F
     std::pair<std::string, const char *>(".*", pg::util::HTTP_CT_BIN),
 };
 
-const char * pg::util::getline(char * buf, const char * str, const char * flag) {
+const char * pg::util::stringUtil::getline(char * buf, const char * str, const char * flag) {
     const char * end = strstr(str, flag);
     if (end == NULL) return end;
 
     strncpy(buf, str, end - str);
 
     return end;
+}
+
+pg::type::Group<std::string> pg::util::stringUtil::split(const std::string & str, const char * splitFlag, int mode) {
+    pg::type::Group<std::string> res;
+    const char * begin = str.c_str();
+    const int len = strlen(splitFlag);
+    
+    const char * startPtr = str.c_str();
+    const char * endPtr = strstr(startPtr, splitFlag);
+    
+    while (endPtr != NULL) {
+        switch (mode) {
+        case -1 :
+            res.emplace_back(startPtr, endPtr + len); break;
+        case 0 :
+            res.emplace_back(startPtr, endPtr); break;
+        case 1 :
+            res.emplace_back(startPtr == begin ? startPtr : startPtr - len, endPtr);
+        }
+        // res.emplace_back(startPtr, endPtr);
+        startPtr = endPtr + len;
+        endPtr = strstr(startPtr, splitFlag);
+    }
+
+    switch (mode) {
+    case 0 :
+    case -1 :
+        res.emplace_back(startPtr); break;
+    case 1 :
+        res.emplace_back(startPtr - len); break;
+    }
+
+    return res;
+}
+
+pg::type::Group<std::string> pg::util::stringUtil::split(const std::string & str, const char ch, int mode) {
+    pg::type::Group<std::string> res;
+    std::string * ptr = nullptr;
+    res.push_back(std::string());
+    ptr = &res.back();
+    
+    for (std::string::const_iterator iter = str.begin(), end = str.end(); iter != end; ++iter) {
+        if (*iter == ch) {
+            switch (mode) {
+            case -1 :
+                ptr->push_back(ch);
+            case 0 :
+                res.emplace_back();
+                break;
+            case 1 :
+                res.emplace_back(1, ch);
+                break;
+            default: break;
+            }
+            ptr = &res.back();
+        } else ptr->push_back(*iter);
+    }
+
+    return res;
 }
