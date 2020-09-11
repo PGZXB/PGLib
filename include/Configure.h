@@ -28,6 +28,7 @@ namespace pg {
         ~Configure();
 
         type::Group<HttpApplication*> getFileReponseApplications();
+        HttpApplication * get404Page();
 
     public:
         static Configure * getInstance();

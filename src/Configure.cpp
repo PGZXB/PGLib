@@ -47,6 +47,9 @@ pg::type::Group<pg::HttpApplication*> pg::Configure::getFileReponseApplications(
     return res;            
 }
 
+pg::HttpApplication* pg::Configure::get404Page() {
+    return getFileReponseApplications().back();
+}
 
 // public-static-function(s)
 pg::Configure * pg::Configure::getInstance() {

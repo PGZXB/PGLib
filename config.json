@@ -10,9 +10,9 @@
     "file-response" : [
         {
             "urls" : [
-                "/",
+                "/home.html",
                 "/home",
-                "/home.html"
+                "/"
             ],
             "path" : "/home/pgzxb/Pictures/home.html"
         },
@@ -51,6 +51,12 @@
         },
         {
             "path" : "/home/pgzxb/Pictures/7.html"
+        },
+        {
+            "urls" : [
+                "/404NOT_FOUND"
+            ],
+            "path" : "/home/pgzxb/Pictures/404.html"
         }
     ]
 }

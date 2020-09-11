@@ -9,9 +9,11 @@
 #include <ObjectManager.h>
 #include <PGDef.h>
 #include <Configure.h>
+#include <utils.h>
+#include <AutoHttpApplication.h>
+
 #include <rapidjson/document.h>
 #include <rapidjson/filereadstream.h>
-#include <utils.h>
 
 #include <cstdio>
 
@@ -26,6 +28,15 @@ int main() {
         auto ee = dynamic_cast<pg::HttpFileResponseApplication* >(e);
         printf("%s, %s, %s\n", ee->url.c_str(), ee->filename.c_str(), ee->contentType.c_str());
     }
+    
+    pg::AutoHttpApplication autoApp2("/test");
+    pg::AutoHttpApplication autoApp("/index");
+    autoApp.pushChildApplication(&autoApp2);
+    autoApp2.pushChildApplication(
+        pg::Configure::getInstance()->getFileReponseApplications().front()
+    );
+
+    s.addApplication(&autoApp);
 
     s.run();
 
