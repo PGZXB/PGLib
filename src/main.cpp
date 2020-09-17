@@ -16,6 +16,7 @@
 #include <rapidjson/filereadstream.h>
 
 #include <cstdio>
+#include <fmt_util.h>
 
 
 int main() {
@@ -42,7 +43,7 @@ int main() {
 
     // s.run();
 
-    for (auto & e : pg::util::stringUtil::__IN_fmtUtil::parseArgs({"1", "2", "3"}, 1, 1, 1)) {
+    for (auto & e : pg::util::stringUtil::__IN_fmtUtil::parseArgs(std::vector<std::string>{"1", "2", "3", ""}, 1, 1, 1)) {
         printf("%s, ", e.c_str());
     } printf("\n");
 
