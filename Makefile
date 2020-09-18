@@ -26,4 +26,7 @@ init :
 rerun : 
 	make clean && make && make run
 
-.PHONY : clean ALL run init rerun
+count : 
+	count_line src include
+
+.PHONY : clean ALL run init rerun count

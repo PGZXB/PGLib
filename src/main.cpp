@@ -43,9 +43,11 @@ int main() {
 
     // s.run();
 
-    for (auto & e : pg::util::stringUtil::__IN_fmtUtil::parseArgs(std::vector<std::string>{"1", "2", "3", ""}, 1, 1, 1)) {
-        printf("%s, ", e.c_str());
-    } printf("\n");
+    // for (auto & e : pg::util::stringUtil::__IN_fmtUtil::parseArgs(std::vector<std::string>{"1", "2", "3", ""}, 1, 1, 1)) {
+    //     printf("%s, ", e.c_str());
+    // } printf("\n");
+
+    printf("\"%s\"\n", pg::util::stringUtil::format("{0}{1}{2}{3}{4}", 1, 2).c_str());
 
     return 0;
 }
