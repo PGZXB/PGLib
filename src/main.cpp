@@ -9,14 +9,15 @@
 #include <ObjectManager.h>
 #include <PGDef.h>
 #include <Configure.h>
-#include <utils.h>
 #include <AutoHttpApplication.h>
+#include <utils.h>
+#include <fmt_util.h>
 
 #include <rapidjson/document.h>
 #include <rapidjson/filereadstream.h>
 
 #include <cstdio>
-#include <fmt_util.h>
+#include <iostream>
 
 
 int main() {
@@ -46,8 +47,25 @@ int main() {
     // for (auto & e : pg::util::stringUtil::__IN_fmtUtil::parseArgs(std::vector<std::string>{"1", "2", "3", ""}, 1, 1, 1)) {
     //     printf("%s, ", e.c_str());
     // } printf("\n");
+    
+    // bool	布尔型	-
+    // char	字符型	8 bit
+    // wchar_t	宽字符型	16 bit
+    // short	短整型	16 bit
+    // int	整形	16 bit
+    // long	长整型	32 bit
+    // long long	长整型	64 bit
+    // float	单精度浮点型	6位有效数字
+    // double	双精度浮点型	10位有效数字
+    // long double	扩展精度浮点型	10位有效数字
+    printf("\"%s\"\n", pg::util::stringUtil::format(
+        "bool:{0}\n char:{1}\n short:{2}\n int:{3}\n"
+        " long:{4}\n long long:{5}\n float:{6:.2}\n "
+        "double:{7:.3}\n long double:{8}",
+        false, 'T', (short)100, (int)100000, (long)1000000000, (long long)1000000000000000, (float)10.235, (double)19.898787222222, (long double)20.333724693444701470
+        ).c_str());
 
-    printf("\"%s\"\n", pg::util::stringUtil::format("{0}{1}{2}{3}{4}", 1, 2).c_str());
-
+    printf("\"%s\"\n", pg::util::stringUtil::format("{0}", std::vector<bool>{0, 1, 1, 0}).c_str());
+    printf("%d\n", pg::util::stringUtil::__IN_fmtUtil::has_iterator<std::vector<int>>::value);
     return 0;
 }
