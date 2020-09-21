@@ -4,9 +4,10 @@
 #include <string>
 #include <type_traits>
 #include <iterator>
+#include <memory>
 
-        #include <typeinfo>
-        #include <iostream>
+#include <typeinfo>
+#include <iostream>
 
 namespace pg::util::stringUtil::__IN_fmtUtil {
     // template<typename _Type>
@@ -100,9 +101,34 @@ namespace pg::util::stringUtil::__IN_fmtUtil {
         return std::string().assign(buf, len);
     }
 
+    std::string transToString(const std::string & ele, const std::string & limit) {
+        struct HeapCharArrayWrapper {  // temp-tool
+            HeapCharArrayWrapper(char * arr) : ptr(arr) { }
+            ~HeapCharArrayWrapper() { if (ptr != nullptr) delete [] ptr; }
+            char * ptr = nullptr;
+        };
+
+        HeapCharArrayWrapper buf(new char[ele.size() << 1]);  // temp-processing ==> AutoBuf
+        char fmt[50] = { 0 };
+
+        sprintf(fmt, "%%%ss", limit.c_str());
+        sprintf(buf.ptr, fmt, ele.c_str());
+        return std::string(buf.ptr);
+    }
+
+        template <typename _First, typename _Second>
+    std::string transToString(const std::pair<_First, _Second> & ele, const std::string &) {
+        const std::string NULL_STRING;
+        return std::string()
+            .append(transToString(ele.first, NULL_STRING))
+            .append(" : ")
+            .append(transToString(ele.second, NULL_STRING));
+    }
+
     // string, const char*
     template<typename _Type>
     std::enable_if_t<has_iterator<_Type>::value, std::string> transToString(const _Type& ele, const std::string & limit) {
+        const std::string NULL_STRING;
         std::string res("[");
         typedef typename _Type::const_iterator Iter;
 
@@ -111,7 +137,7 @@ namespace pg::util::stringUtil::__IN_fmtUtil {
             iter != end;
             ++iter
         ) {
-            res.append( transToString(*iter, std::string()) ).append(", ");
+            res.append( transToString(*iter, NULL_STRING) ).append(", ");  // useless second-param
         }
 
         res.pop_back();

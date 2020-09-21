@@ -18,6 +18,7 @@
 
 #include <cstdio>
 #include <iostream>
+#include <map>
 
 
 int main() {
@@ -64,8 +65,8 @@ int main() {
         "double:{7:.3}\n long double:{8}",
         false, 'T', (short)100, (int)100000, (long)1000000000, (long long)1000000000000000, (float)10.235, (double)19.898787222222, (long double)20.333724693444701470
         ).c_str());
-
-    printf("\"%s\"\n", pg::util::stringUtil::format("{0}", std::vector<bool>{0, 1, 1, 0}).c_str());
+    printf("\"%s\"\n", 
+        pg::util::stringUtil::format("{0}", std::map<int, std::string>{{1, "one"}, {2, "two"}, {3, "three"}}).c_str());
     printf("%d\n", pg::util::stringUtil::__IN_fmtUtil::has_iterator<std::vector<int>>::value);
     return 0;
 }
