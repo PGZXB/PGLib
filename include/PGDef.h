@@ -6,7 +6,7 @@
 namespace pg {
     namespace type {
 
-        typedef char Byte;
+        typedef unsigned char Byte;
 
         template <typename T>
         using Group = std::vector<T>;
