@@ -12,12 +12,20 @@ namespace pg::tools {  // tools : helper-classes, util : helper-functions
         public:
             DynamicArrayWrapper() { }
             DynamicArrayWrapper(DataPointerType array) : ptr(array) { }
-            DynamicArrayWrapper(SizeType n) : ptr(new DataType[n]) { }
+            explicit DynamicArrayWrapper(SizeType n) : ptr(new DataType[n]) { }
+
+            DynamicArrayWrapper(const DynamicArrayWrapper &) = delete;
+            DynamicArrayWrapper(DynamicArrayWrapper &&) = delete;
+
+            DynamicArrayWrapper & operator= (const DynamicArrayWrapper &) = delete;
+            DynamicArrayWrapper & operator= (DynamicArrayWrapper &&) = delete;
 
             void swap(DynamicArrayWrapper & other) noexcept {
                 using std::swap;
                 swap(other.ptr, ptr);
             }
+
+            DataType & operator[] (SizeType idx) { return ptr[idx]; }
 
             DataPointerType get() { return ptr; }
 
