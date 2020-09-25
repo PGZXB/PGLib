@@ -18,11 +18,11 @@ void pg::AutoHttpApplication::exec(const HttpRequest & request, HttpResponse & r
                                                     = childAppMap.find(request.getUrl());
 
         if (iter != childAppMap.end()) iter->second->exec(request, response);
-        else if (responseFunction) responseFunction(request, response);
+        else if (responseFunction && request.getUrl() == "/") responseFunction(request, response);
         else pg::Configure::getInstance()->get404Page()->exec(request, response); // 404
-    
-    } else if (responseFunction) responseFunction(request, response);
-    else pg::Configure::getInstance()->get404Page()->exec(request, response);; // 404
+
+    } else if (responseFunction && request.getUrl() == "/") responseFunction(request, response);
+    else pg::Configure::getInstance()->get404Page()->exec(request, response); // 404
 }
 
 void pg::AutoHttpApplication::pushChildApplication(pg::HttpApplication * childApp) {
