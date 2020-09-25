@@ -3,7 +3,7 @@
 
 #include <utility>
 
-namespace pg::tools {  // tools : helper-classes, util : helper-functions
+namespace pg::base {  // tools : helper-classes, util : helper-functions
     template <typename _Type>
     class DynamicArrayWrapper {
             using DataType = _Type;
@@ -28,8 +28,13 @@ namespace pg::tools {  // tools : helper-classes, util : helper-functions
             DataType & operator[] (SizeType idx) { return ptr[idx]; }
 
             DataPointerType get() { return ptr; }
+            const DataType * get() const { return ptr; }
 
             ~DynamicArrayWrapper() { if (ptr != nullptr) delete [] ptr; }
+            
+            friend void swap(DynamicArrayWrapper & v1, DynamicArrayWrapper & v2) {
+                v1.swap(v2);
+            }
         private:
             DataPointerType ptr = nullptr;
     };
