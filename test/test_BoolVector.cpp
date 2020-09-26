@@ -1,9 +1,9 @@
 #include <cstdio>
 #include <ctime>
 #include <cassert>
+#include <cstdlib>
 
 #include <base/BoolVector.h>
-#include <tostring_util.h>
 
 
 int main () {
