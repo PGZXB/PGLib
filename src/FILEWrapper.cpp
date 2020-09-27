@@ -1,4 +1,5 @@
 #include <base/FILEWrapper.h>
+#include <base/Buffer.h>
 
 pg::base::FILEWrapper::FILEWrapper(std::FILE * pFILE) : pFILE_(pFILE) { }
 pg::base::FILEWrapper::~FILEWrapper() { close(); }
@@ -66,4 +67,26 @@ std::string pg::base::FILEWrapper::readAsString(size_t maxLen) const {
         res.append(__buf, __len);
     }
     return res;
+}
+
+// static-function
+std::shared_ptr<pg::base::FILEWrapper> pg::base::FILEWrapper::getInstance(const std::string & filename, pg::base::FileOpenMode::Mode mode) {
+    using pg::base::FileOpenMode;
+    std::string modeStr;
+
+    if (mode & FileOpenMode::Write) {
+        modeStr.push_back('w');
+        if (mode & FileOpenMode::Read) modeStr.push_back('+');
+    }
+    else if (mode & FileOpenMode::Append) {
+        modeStr.push_back('a');
+        if (mode & FileOpenMode::Read) modeStr.push_back('+');
+    }
+    else if (mode & FileOpenMode::Read)
+        modeStr.push_back('r');
+    
+    if (mode & FileOpenMode::Binary) modeStr.push_back('b');
+
+    return std::shared_ptr<FILEWrapper>(
+        new FILEWrapper(std::fopen(filename.c_str(), modeStr.c_str())));
 }

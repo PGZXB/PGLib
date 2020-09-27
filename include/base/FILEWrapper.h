@@ -2,17 +2,17 @@
 #define __FILEWRAPPER_H__
 
 #include <cstdio>
-
-#include <base/Buffer.h>
 #include <string>
+#include <memory>
 
+#include <base/pgfwd.h>
 
 namespace pg::base {
-    // using Buffer = class DynamicBuffer;  // BufferFWD
+    using Buffer = class DynamicBuffer;  // BufferFWD
 
     class FILEWrapper {
     public:
-        FILEWrapper(std::FILE * pFILE);
+        FILEWrapper(std::FILE * pFILE = nullptr);
         ~FILEWrapper();
 
         FILEWrapper(const FILEWrapper &) = delete;
@@ -32,6 +32,7 @@ namespace pg::base {
         ssize_t read(Buffer & buf, size_t maxLen) const;
         std::string readAsString(size_t maxLen) const;
 
+        static std::shared_ptr<FILEWrapper> getInstance(const std::string & filename, pg::base::FileOpenMode::Mode mode);
     private:
         std::FILE * pFILE_ = nullptr;
     };

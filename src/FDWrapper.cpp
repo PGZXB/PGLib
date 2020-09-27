@@ -3,6 +3,8 @@
 
 #include <unistd.h>
 
+#include <iostream>
+
 pg::base::FDWrapper::FDWrapper(int fd) : fd_(fd) { }
 pg::base::FDWrapper::~FDWrapper() { if (fd_ != -1) ::close(fd_); }
 
@@ -27,12 +29,23 @@ ssize_t pg::base::FDWrapper::readAll(Buffer & buf) const {
 }
 
 std::string pg::base::FDWrapper::readAllAsString() const {
-    char __buf[BUFSIZ] = { 0 };
-    std::string res;
+    printf("||-----}}}\n");
 
-    size_t __len = 0, __sum = 0;
+    char __buf[BUFSIZ] = { 0 };
+    printf("||-----}}}\n");
+
+    std::string res;
+    printf("||-----}}}\n");
+
+    std::size_t __len = 0, __sum = 0;
+    // printf("||-----}}}\n");\
+    // ::read(fd_, __buf, BUFSIZ); printf("&&&&&&&&&&& \"%s\" \n", __buf);
     while ((__len = ::read(fd_, __buf, BUFSIZ)) > 0) {
         __sum += __len;
+        perror("+++++++++++");
+        std::cout << __len << std::endl;
+        printf("||-----}}} %ld, %ld, %ld \n", res.max_size(), res.size(), __len);
+        
         res.append(__buf, __len);
     }
     return res;
