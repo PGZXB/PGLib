@@ -5,6 +5,8 @@
 #include <sys/stat.h>
 #include <cstdio>
 
+#include <base/Buffer.h>
+
 int main () {
 
     pg::base::FDWrapper FD(::open("test_BoolVector.cpp", O_RDONLY));

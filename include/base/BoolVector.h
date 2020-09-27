@@ -7,7 +7,7 @@
 namespace pg::base {
 
     class BoolVector {
-        using Int32 = std::int32_t;
+        using Int = std::int32_t;
     public:
         BoolVector();
 
@@ -18,8 +18,8 @@ namespace pg::base {
         bool operator[] (std::size_t idx);
 
     private:
-        enum { BLOCK_SIZE = 32 };
-        std::vector<Int32> bVec_;
+        enum { BLOCK_SIZE = sizeof(Int) * 8 };
+        std::vector<Int> bVec_;
         std::size_t size_ = 0;
     };
 
