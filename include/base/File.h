@@ -11,19 +11,7 @@
 
 namespace pg::base {
 
-    template <typename _FWrapper>  // FDWrapper & FILEWrapper
-    class File : public _FWrapper {  // linux-based file
-    private:
-        using FileBaseWrapper = _FWrapper;
-        std::shared_ptr<FileBaseWrapper> pFWrapper;
-    public:
-        File(std::string filename, FileOpenMode::Mode mode) {
-            this->setData(FileBaseWrapper::getInstance(filename, mode));
-        }
-
-        ~File() {  }
-
-    };
+    
 } // namespace pg::base
 
 #endif

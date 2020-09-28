@@ -69,8 +69,8 @@ std::string pg::base::FILEWrapper::readAsString(size_t maxLen) const {
     return res;
 }
 
-// static-function
-std::shared_ptr<pg::base::FILEWrapper> pg::base::FILEWrapper::getInstance(const std::string & filename, pg::base::FileOpenMode::Mode mode) {
+// FILE-about util-functions
+FILE * pg::base::getPFILE(const std::string & filename, pg::base::FileOpenMode::Mode mode) {
     using pg::base::FileOpenMode;
     std::string modeStr;
 
@@ -87,6 +87,5 @@ std::shared_ptr<pg::base::FILEWrapper> pg::base::FILEWrapper::getInstance(const 
     
     if (mode & FileOpenMode::Binary) modeStr.push_back('b');
 
-    return std::shared_ptr<FILEWrapper>(
-        new FILEWrapper(std::fopen(filename.c_str(), modeStr.c_str())));
+    return std::fopen(filename.c_str(), modeStr.c_str());
 }

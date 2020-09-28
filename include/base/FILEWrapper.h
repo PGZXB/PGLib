@@ -10,6 +10,8 @@
 namespace pg::base {
     using Buffer = class DynamicBuffer;  // BufferFWD
 
+    FILE * getPFILE(const std::string & filename, pg::base::FileOpenMode::Mode mode);
+
     class FILEWrapper {
     public:
         FILEWrapper(std::FILE * pFILE = nullptr);
@@ -31,8 +33,6 @@ namespace pg::base {
 
         ssize_t read(Buffer & buf, size_t maxLen) const;
         std::string readAsString(size_t maxLen) const;
-
-        static std::shared_ptr<FILEWrapper> getInstance(const std::string & filename, pg::base::FileOpenMode::Mode mode);
     private:
         std::FILE * pFILE_ = nullptr;
     };

@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+// FDWrapper's member functions
 pg::base::FDWrapper::FDWrapper(int fd) : fd_(fd) { }
 pg::base::FDWrapper::~FDWrapper() { if (fd_ != -1) ::close(fd_); }
 
@@ -29,22 +30,13 @@ ssize_t pg::base::FDWrapper::readAll(Buffer & buf) const {
 }
 
 std::string pg::base::FDWrapper::readAllAsString() const {
-    printf("||-----}}}\n");
-
     char __buf[BUFSIZ] = { 0 };
-    printf("||-----}}}\n");
 
     std::string res;
-    printf("||-----}}}\n");
 
     std::size_t __len = 0, __sum = 0;
-    // printf("||-----}}}\n");\
-    // ::read(fd_, __buf, BUFSIZ); printf("&&&&&&&&&&& \"%s\" \n", __buf);
     while ((__len = ::read(fd_, __buf, BUFSIZ)) > 0) {
         __sum += __len;
-        perror("+++++++++++");
-        std::cout << __len << std::endl;
-        printf("||-----}}} %ld, %ld, %ld \n", res.max_size(), res.size(), __len);
         
         res.append(__buf, __len);
     }
@@ -80,4 +72,26 @@ std::string pg::base::FDWrapper::readAsString(size_t maxLen) const {
         res.append(__buf, __len);
     }
     return res;
+}
+
+// fd-about util-functions
+int pg::base::getFd(const std::string & filename, pg::base::FileOpenMode::Mode mode) {
+            
+    using pg::base::FileOpenMode;
+    int flags = 0;
+
+    if (mode & FileOpenMode::Write) {
+
+        flags = O_WRONLY;
+        if (mode & FileOpenMode::Read) flags |= O_RDONLY;
+    }
+    else if (mode & FileOpenMode::Append) {
+
+        flags = O_APPEND;
+        if (mode & FileOpenMode::Read) flags |= O_RDONLY;
+    }
+    else if (mode & FileOpenMode::Read)
+        flags = O_RDONLY;
+    
+    return ::open(filename.c_str(), flags);
 }

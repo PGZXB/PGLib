@@ -8,7 +8,7 @@
 #include <stdio.h>
 
 #include <PGDef.h>  // type::Byte
-#include <DynamicArrayWrapper.h>
+#include <base/DynamicArrayWrapper.h>
 
 namespace pg::base {
     class DynamicBuffer;
