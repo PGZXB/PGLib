@@ -26,12 +26,14 @@ pg::base::File::File(const std::string & parent, const std::string & child) : pa
 bool pg::base::File::readable() const { // 测试应用程序是否能从指定的文件中进行读取
     __uid_t uid = getuid();
     __gid_t gid = getgid();
-    
+
     if (gid == stat_.st_gid) {
         if (uid == stat_.st_uid)
             return stat_.st_mode & S_IRUSR;
         return stat_.st_mode & S_IRGRP;
-    } else return stat_.st_mode & S_IROTH;
+    }
+    
+    return stat_.st_mode & S_IROTH;
 }
 
 bool pg::base::File::writable() const { // 测试应用程序是否能写当前文件
@@ -42,19 +44,21 @@ bool pg::base::File::writable() const { // 测试应用程序是否能写当前�
         if (uid == stat_.st_uid)
             return stat_.st_mode & S_IWUSR;
         return stat_.st_mode & S_IWGRP;
-    } else return stat_.st_mode & S_IWOTH;
+    }
+    
+    return stat_.st_mode & S_IWOTH;
 }
 
 bool pg::base::File::remove() { // 删除当前对象指定的文件
-
+    return false;
 }
 
-bool pg::base::File::exists() const { // 测试当前 File 是否存在 
+bool pg::base::File::exists() const { // 测试当前 File 是否存在
     return exists_;
 }
 
 std::string pg::base::File::getAbsolutePath() const { // 返回由该对象表示的文件的绝对路径名
-    return isAbsolute() ? path_ : std::string(get_current_dir_name()).append(path_);
+    return isAbsolute() ? path_ : std::string(get_current_dir_name()).append(1, PATH_SEPARATOR).append(path_);
 }
 
 std::string pg::base::File::getName() const { // 返回表示当前对象的文件名或路径名（如果是路径，则返回最后一级子路径名）
@@ -65,7 +69,7 @@ std::string pg::base::File::getName() const { // 返回表示当前对象的文�
 }
 
 std::string pg::base::File::getParent() const { // 返回当前 File 对象所对应目录（最后一级子目录）的父目录名
-    int pos = getAbsolutePath().find_last_of(PATH_SEPARATOR);
+    std::string::size_type pos = getAbsolutePath().find_last_of(PATH_SEPARATOR);
     if (pos == path_.size() - 1) return path_;
 
     return std::string(path_.begin(), path_.begin() + pos);
@@ -88,7 +92,7 @@ bool pg::base::File::isFile() const { // 测试当前 File 对象表示的文件
 }
 
 long/*pg::type::timetamp_t*/ pg::base::File::lastModified() const { // 返回当前 File 对象表示的文件最后修改的时间
-
+    return 0L;
 }
 
 std::size_t pg::base::File::size() const { // 返回当前 File 对象表示的文件长度
@@ -96,40 +100,46 @@ std::size_t pg::base::File::size() const { // 返回当前 File 对象表示的�
 }
 
 pg::type::Group<std::string> pg::base::File::list() const { // 返回当前 File 对象指定的路径的文件列表
-
+    return pg::type::Group<std::string>();
 }
 
 bool pg::base::File::mkdir() { // parent must exists , 创建一个目录，它的路径名由当前 File 对象指定
-
+    return false;
 }
 
 bool pg::base::File::mkdirs() { // no request, 创建一个目录，它的路径名由当前 File 对象指定
-
+    return false;
 }
 
 bool pg::base::File::rename(const std::string &) { // 文件更名为给定name, no-path
-
+    return false;
 }
 
 bool pg::base::File::move(const std::string & path) {
-
+    return false;
 }
 
 bool pg::base::File::move(const pg::base::File & target) { 
     // move the File to target-path, 
     // if the target is a file, mv to its parent-path
 
-
+    return false;
 }
 
 // PG-Like-Desigh
 std::shared_ptr<pg::base::FDWrapper> pg::base::File::getFDWrapper() { // get FDWrapper, which can write/read to/from file
+    using pg::base::FileOpenMode;
+    using pg::base::FDWrapper;
 
+    return std::shared_ptr<FDWrapper>(new FDWrapper(pg::base::getFd(path_, FileOpenMode::Mode(FileOpenMode::Read | FileOpenMode::Write))));
 } 
 
 std::shared_ptr<pg::base::FILEWrapper> pg::base::File::getFILEWrapper() { // get FILEWrapper, which can write/read to/from file
+    using pg::base::FileOpenMode;
+    using pg::base::FILEWrapper;
 
-}
+    return std::shared_ptr<FILEWrapper>(new FILEWrapper(pg::base::getPFILE(path_, FileOpenMode::Mode(FileOpenMode::Read | FileOpenMode::Append))));
+} 
 
 // private-functions
 void pg::base::File::initCheck() {
