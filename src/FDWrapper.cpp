@@ -2,19 +2,20 @@
 #include <base/Buffer.h>
 
 #include <unistd.h>
-
-#include <iostream>
+// #include <iostream>
 
 // FDWrapper's member functions
 pg::base::FDWrapper::FDWrapper(int fd) : fd_(fd) { }
 pg::base::FDWrapper::~FDWrapper() { if (fd_ != -1) ::close(fd_); }
 
 void pg::base::FDWrapper::close() { if (fd_ != -1) ::close(fd_); }
+
 const int pg::base::FDWrapper::data() { return fd_; }
 
 ssize_t pg::base::FDWrapper::write(const Buffer & src, size_t len) {
     if (len == 0) len = src.size();
-
+    
+    printf("%s\n", src.get());
     return ::write(fd_, src.get(), len);
 }
 
@@ -76,7 +77,6 @@ std::string pg::base::FDWrapper::readAsString(size_t maxLen) const {
 
 // fd-about util-functions
 int pg::base::getFd(const std::string & filename, pg::base::FileOpenMode::Mode mode) {
-            
     using pg::base::FileOpenMode;
     int flags = 0;
 
@@ -92,6 +92,6 @@ int pg::base::getFd(const std::string & filename, pg::base::FileOpenMode::Mode m
     }
     else if (mode & FileOpenMode::Read)
         flags = O_RDONLY;
-    
+
     return ::open(filename.c_str(), flags);
 }

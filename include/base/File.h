@@ -17,11 +17,6 @@
 namespace pg::base {
 
     class File {
-        // union FileHandle {
-            // FILE * file_handle;
-            // DIR * dir_handle;
-        // };
-        // using Handle = FileHandle;
         static const char PATH_SEPARATOR;
     public:
         // Java-Like-Design
@@ -73,13 +68,11 @@ namespace pg::base {
                                                   // if the target is a file, mv to its parent-path
 
         // PG-Like-Desigh
-
         std::shared_ptr<pg::base::FDWrapper> getFDWrapper(); // get FDWrapper, which can write/read to/from file
 
         std::shared_ptr<pg::base::FILEWrapper> getFILEWrapper(); // get FILEWrapper, which can write/read to/from file
     private:
         void initCheck();
-
 
     private:
         std::string path_;

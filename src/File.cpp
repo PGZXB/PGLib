@@ -1,8 +1,9 @@
 #include <base/File.h>
 
 #include <errno.h>
-
 #include <cctype>
+#include <cstdio>
+#include <algorithm>
 
 #ifdef linux
 const char pg::base::File::PATH_SEPARATOR = '/';
@@ -50,7 +51,8 @@ bool pg::base::File::writable() const { // 测试应用程序是否能写当前�
 }
 
 bool pg::base::File::remove() { // 删除当前对象指定的文件
-    return false;
+
+    return std::remove(getAbsolutePath().c_str());
 }
 
 bool pg::base::File::exists() const { // 测试当前 File 是否存在
@@ -111,8 +113,21 @@ bool pg::base::File::mkdirs() { // no request, 创建一个目录，它的路径
     return false;
 }
 
-bool pg::base::File::rename(const std::string &) { // 文件更名为给定name, no-path
-    return false;
+bool pg::base::File::rename(const std::string & newName) { // 文件更名为给定name, no-path
+    
+    if (!exists()) return false;
+
+    std::string oldAbsPath = getAbsolutePath();
+    std::string::size_type __temp = 0;
+    std::string __newName = newName.substr(
+        (__temp = newName.find_last_of(PATH_SEPARATOR)) == std::string::npos ? 0 : 
+            std::min(__temp + 1, newName.size() - 1)
+    );
+    std::string::size_type pos = path_.find_last_of(PATH_SEPARATOR);
+    if (pos == std::string::npos) path_ = __newName;
+    else path_.replace(pos + 1, path_.size() - pos - 1, newName);
+
+    return std::rename(oldAbsPath.c_str(), getAbsolutePath().c_str()) == 0;
 }
 
 bool pg::base::File::move(const std::string & path) {
@@ -131,19 +146,22 @@ std::shared_ptr<pg::base::FDWrapper> pg::base::File::getFDWrapper() { // get FDW
     using pg::base::FileOpenMode;
     using pg::base::FDWrapper;
 
-    return std::shared_ptr<FDWrapper>(new FDWrapper(pg::base::getFd(path_, FileOpenMode::Mode(FileOpenMode::Read | FileOpenMode::Write))));
-} 
+    return std::shared_ptr<FDWrapper>(
+        new FDWrapper(pg::base::getFd(path_, FileOpenMode::Mode(FileOpenMode::Read | FileOpenMode::Append))));
+}
+
 
 std::shared_ptr<pg::base::FILEWrapper> pg::base::File::getFILEWrapper() { // get FILEWrapper, which can write/read to/from file
     using pg::base::FileOpenMode;
     using pg::base::FILEWrapper;
 
-    return std::shared_ptr<FILEWrapper>(new FILEWrapper(pg::base::getPFILE(path_, FileOpenMode::Mode(FileOpenMode::Read | FileOpenMode::Append))));
-} 
+    return std::shared_ptr<FILEWrapper>(
+        new FILEWrapper(pg::base::getPFILE(path_, FileOpenMode::Mode(FileOpenMode::Read | FileOpenMode::Append))));
+}
 
 // private-functions
 void pg::base::File::initCheck() {
-    
+
     // to check if path is valid
     // ... using regex-match
 
