@@ -74,6 +74,7 @@ namespace pg::base {
     private:
         void initCheck();
 
+
     private:
         std::string path_;
         struct stat stat_ = { 0 };
