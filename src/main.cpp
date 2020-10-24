@@ -1,5 +1,5 @@
-#define private public
-#define protected public
+#define private public // To Test
+#define protected public // To Test
 
 #include <HttpAppServer.h>
 #include <HttpRequest.h>
@@ -7,13 +7,13 @@
 #include <HttpApplication.h>
 #include <HttpFileResponseApplication.h>
 #include <ObjectManager.h>
-#include <PGDef.h>
 #include <Configure.h>
 #include <AutoHttpApplication.h>
+#include <base/DynamicArrayWrapper.h>
+#include <PGDef.h>
 #include <utils.h>
 #include <fmt_util.h>
 #include <tostring_util.h>
-#include <base/DynamicArrayWrapper.h>
 
 #include <rapidjson/document.h>
 #include <rapidjson/filereadstream.h>
@@ -47,22 +47,6 @@ int main() {
     s.addApplication(&autoApp);
 
     s.run();
-
-    for (auto & e : pg::util::stringUtil::__IN_fmtUtil::parseArgs(std::vector<std::string>{"1", "2", "3", ""}, 1, 1, 1)) {
-        printf("%s, ", e.c_str());
-    } printf("\n");
-    puts(pg::util::stringUtil::format(
-        "{0}\n{0}", std::map<int, std::list<int>>{{1, {1}}, {2, {1, 2}}, {3, {1, 2, 3}}}).c_str());
-    
-    // pg::tools::DynamicArrayWrapper<std::vector<std::vector<int>>> V2D(new std::vector<std::vector<int>>[10]);
-    // for (int i = 0; i < 10; ++i) { 
-    //     V2D[i].push_back({i, i + 1, i * i});
-    //     V2D[i].push_back({i + 2, i + 3, i * i * i});
-    //     V2D[i].push_back({i + 3, i + 4, i * i * i * i});
-    // }
-    // for (int i = 0; i < 10; ++i) {
-    //     puts(pg::util::stringUtil::__IN_fmtUtil::transToString(V2D[i], {}).c_str());
-    // }
 
     return 0;
 }
