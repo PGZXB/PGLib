@@ -14,6 +14,7 @@
 #include <utils.h>
 #include <fmt_util.h>
 #include <tostring_util.h>
+#include <Page.h>
 
 #include <rapidjson/document.h>
 #include <rapidjson/filereadstream.h>
@@ -47,6 +48,10 @@ int main() {
     s.addApplication(&autoApp);
 
     s.run();
+
+    pg::Page page("/home/pgzxb/Pictures/index.html");
+
+    printf("\n---\n%s\n---\n", page.formatAll(std::string("First"), 128, 1024).c_str());
 
     return 0;
 }

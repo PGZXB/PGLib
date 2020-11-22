@@ -118,6 +118,80 @@ namespace pg::util::stringUtil {
         return res;
     }
 
+    template<typename _Res, typename..._Args>
+    _Res format(const std::string & fmt, _Args&& ...args) {
+        typedef std::vector<std::pair<std::string::const_iterator, std::string::const_iterator>>::iterator Iter;
+        
+        std::vector<std::pair<std::string::const_iterator, std::string::const_iterator>>
+            contentRangeInBracket = __IN_fmtUtil::parseBracket(fmt, "{", "}");
+        if (contentRangeInBracket.empty()) return fmt;
+
+        std::vector<std::string> limits;
+        std::vector<int> nos;
+        
+        for (
+            Iter iter = contentRangeInBracket.begin(), end = contentRangeInBracket.end();
+            iter != end; ++iter) {
+            
+            std::string::const_iterator partiIter =  std::find(iter->first, iter->second, ':');
+            nos.push_back(std::atoi(fmt.c_str() + (iter->first - fmt.begin())));
+            if (partiIter != iter->second)
+                limits.push_back(std::string().assign(partiIter + 1, iter->second));
+            else limits.emplace_back();
+        }
+        
+        std::vector<std::string> contents =  __IN_fmtUtil::parseArgs(limits, args...);
+
+        _Res res; res.append(fmt.begin(), contentRangeInBracket.front().first - 1);
+        ssize_t cSize = contents.size();
+        ssize_t idx = 0;
+        for (ssize_t i = 0; i < static_cast<ssize_t>(nos.size()) - 1; ++i) {
+            idx = nos.at(i);
+            if (idx < cSize) res.append(contents.at(idx));
+            res.append(contentRangeInBracket.at(i).second + 1, contentRangeInBracket.at(i + 1).first - 1);
+        }
+        if ((idx = nos.back()) < cSize) res.append(contents.at(idx));
+        res.append(contentRangeInBracket.back().second + 1, fmt.end());
+
+        return res;
+    }
+
+    template<typename _Res, typename..._Args>
+    void format(_Res & res, const std::string & fmt, _Args&& ...args) {
+        typedef std::vector<std::pair<std::string::const_iterator, std::string::const_iterator>>::iterator Iter;
+        
+        std::vector<std::pair<std::string::const_iterator, std::string::const_iterator>>
+            contentRangeInBracket = __IN_fmtUtil::parseBracket(fmt, "{", "}");
+        if (contentRangeInBracket.empty()) { res = fmt; return; }
+
+        std::vector<std::string> limits;
+        std::vector<int> nos;
+        
+        for (
+            Iter iter = contentRangeInBracket.begin(), end = contentRangeInBracket.end();
+            iter != end; ++iter) {
+            
+            std::string::const_iterator partiIter =  std::find(iter->first, iter->second, ':');
+            nos.push_back(std::atoi(fmt.c_str() + (iter->first - fmt.begin())));
+            if (partiIter != iter->second)
+                limits.push_back(std::string().assign(partiIter + 1, iter->second));
+            else limits.emplace_back();
+        }
+        
+        std::vector<std::string> contents =  __IN_fmtUtil::parseArgs(limits, args...);
+
+        res.append(fmt.begin(), contentRangeInBracket.front().first - 1);
+        ssize_t cSize = contents.size();
+        ssize_t idx = 0;
+        for (ssize_t i = 0; i < static_cast<ssize_t>(nos.size()) - 1; ++i) {
+            idx = nos.at(i);
+            if (idx < cSize) res.append(contents.at(idx));
+            res.append(contentRangeInBracket.at(i).second + 1, contentRangeInBracket.at(i + 1).first - 1);
+        }
+        if ((idx = nos.back()) < cSize) res.append(contents.at(idx));
+        res.append(contentRangeInBracket.back().second + 1, fmt.end());
+    }
+
 } // namespace pg::util::stringUtil
 
 #endif
