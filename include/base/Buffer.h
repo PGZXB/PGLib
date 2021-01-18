@@ -48,6 +48,11 @@ namespace pg::base {
             this->size_ = minLen;
         }
 
+        template <typename _Type>
+        void append(const _Type & val) {
+            this->push_back(&val, sizeof(_Type));
+        }
+
     private:
         void extend(size_t minLen) {
             if (minLen <= cap_) return;

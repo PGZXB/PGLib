@@ -47,11 +47,11 @@ int main() {
     );
     s.addApplication(&autoApp);
 
-    s.run();
+    // s.run();
 
-    pg::Page page("/home/pgzxb/Pictures/index.html");
+    pg::Page page("/home/pgzxb/Pictures/7.html");
 
-    printf("\n---\n%s\n---\n", page.formatAll(std::string("First"), 128, 1024).c_str());
+    printf("\n---\n%s\n---\n", page.formatAll().c_str());
 
     return 0;
 }

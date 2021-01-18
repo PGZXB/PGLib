@@ -80,6 +80,25 @@ namespace pg::util::stringUtil {
             }
     } // namespace __IN_fmtUtil
     
+    template <typename _Res>
+    void pushStringIntoBracket(
+        _Res & res,
+        const std::string & fmt,
+        const std::vector<std::string> & contents,
+        const std::vector<std::pair<std::string::const_iterator, std::string::const_iterator>> & ranges,
+        const std::vector<int> & nos) {
+        res.append(fmt.begin(), ranges.front().first - 1);
+        ssize_t cSize = contents.size();
+        ssize_t idx = 0;
+        for (ssize_t i = 0; i < static_cast<ssize_t>(nos.size()) - 1; ++i) {
+            idx = nos.at(i);
+            if (idx < cSize) res.append(contents.at(idx));
+            res.append(ranges.at(i).second + 1, ranges.at(i + 1).first - 1);
+        }
+        if ((idx = nos.back()) < cSize) res.append(contents.at(idx));
+        res.append(ranges.back().second + 1, fmt.end());
+    }
+
     template<typename..._Args>
     std::string format(const std::string & fmt, _Args&& ...args) {
         typedef std::vector<std::pair<std::string::const_iterator, std::string::const_iterator>>::iterator Iter;
@@ -142,16 +161,8 @@ namespace pg::util::stringUtil {
         
         std::vector<std::string> contents =  __IN_fmtUtil::parseArgs(limits, args...);
 
-        _Res res; res.append(fmt.begin(), contentRangeInBracket.front().first - 1);
-        ssize_t cSize = contents.size();
-        ssize_t idx = 0;
-        for (ssize_t i = 0; i < static_cast<ssize_t>(nos.size()) - 1; ++i) {
-            idx = nos.at(i);
-            if (idx < cSize) res.append(contents.at(idx));
-            res.append(contentRangeInBracket.at(i).second + 1, contentRangeInBracket.at(i + 1).first - 1);
-        }
-        if ((idx = nos.back()) < cSize) res.append(contents.at(idx));
-        res.append(contentRangeInBracket.back().second + 1, fmt.end());
+        _Res res;
+        pushStringIntoBracket(res, fmt, contents, contentRangeInBracket, nos);
 
         return res;
     }
@@ -180,16 +191,7 @@ namespace pg::util::stringUtil {
         
         std::vector<std::string> contents =  __IN_fmtUtil::parseArgs(limits, args...);
 
-        res.append(fmt.begin(), contentRangeInBracket.front().first - 1);
-        ssize_t cSize = contents.size();
-        ssize_t idx = 0;
-        for (ssize_t i = 0; i < static_cast<ssize_t>(nos.size()) - 1; ++i) {
-            idx = nos.at(i);
-            if (idx < cSize) res.append(contents.at(idx));
-            res.append(contentRangeInBracket.at(i).second + 1, contentRangeInBracket.at(i + 1).first - 1);
-        }
-        if ((idx = nos.back()) < cSize) res.append(contents.at(idx));
-        res.append(contentRangeInBracket.back().second + 1, fmt.end());
+        pushStringIntoBracket(res, fmt, contents, contentRangeInBracket, nos);
     }
 
 } // namespace pg::util::stringUtil

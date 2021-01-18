@@ -39,6 +39,16 @@ namespace pg {
                 _srcFile->getFILEWrapper()->readAllAsString(), args...);
         }
 
+        template <typename _Res, typename..._Args>
+        void formatBatchTo(_Res & res) {  // Base-Tools is not 
+            auto filePtr = _srcFile->getFILEWrapper();
+            pg::base::Buffer buf;
+
+            filePtr->read(buf, 1024);
+
+            // pg::util::stringUtil::format(res, std::string(buf.get()), );
+        }
+
         // void saveAsString(std::string & to) {
         // }
 
