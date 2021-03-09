@@ -11,10 +11,10 @@
 #include <AutoHttpApplication.h>
 #include <base/DynamicArrayWrapper.h>
 #include <PGDef.h>
-#include <utils.h>
-#include <fmt_util.h>
-#include <tostring_util.h>
-#include <Page.h>
+// #include <utils.h>
+// #include <fmt_util.h>
+// #include <tostring_util.h>
+// #include <Page.h>
 
 #include <rapidjson/document.h>
 #include <rapidjson/filereadstream.h>
@@ -25,7 +25,7 @@
 
 
 int main() {
-    pg::HttpAppServer s(8080);
+    pg::HttpAppServer s(8889);
 
     auto apps = pg::Configure::getInstance()->getFileReponseApplications();
     s.addApplicationBatch(apps);
@@ -47,11 +47,6 @@ int main() {
     );
     s.addApplication(&autoApp);
 
-    // s.run();
-
-    pg::Page page("/home/pgzxb/Pictures/7.html");
-
-    printf("\n---\n%s\n---\n", page.formatAll().c_str());
-
+    s.run();
     return 0;
 }

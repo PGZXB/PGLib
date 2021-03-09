@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-const char * const pg::util::CONFIG_FILE_NAME = "config.json";
+const char * const pg::util::CONFIG_FILE_NAME = "../config.json";
 
 const char * const pg::util::CRLF = "\r\n";
 const char * const pg::util::LF = "\n";
